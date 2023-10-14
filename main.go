@@ -37,10 +37,8 @@ func (tb* tokenBucket) refill(){
 func (tb* tokenBucket) ratelimiter(requestNumber float64) bool{
 	// refill the bucket based on refillTime 
 	tb.refill()
-	fmt.Println("add =",tb.tokens)
 	if requestNumber < tb.tokens{
 		tb.tokens -= requestNumber
-		fmt.Println("sub = ",tb.tokens)
 		return true
 	}
 	return false
@@ -49,8 +47,8 @@ func (tb* tokenBucket) ratelimiter(requestNumber float64) bool{
 func main(){
 	newTokenBucket := NewTokenBucket(10,1)
 	var i float64
-	for  i=0; i<30; i++ {
-		fmt.Println("rate limit check ", i+1, newTokenBucket.ratelimiter(20))
+	for  i=0; i<20; i++ {
+		fmt.Println("rate limit check ", i+1, newTokenBucket.ratelimiter(2))
 		time.Sleep(500 * time.Millisecond)
 	} 
 }
