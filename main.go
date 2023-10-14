@@ -49,8 +49,8 @@ func (tb* tokenBucket) ratelimiter(requestNumber float64) bool{
 func main(){
 	newTokenBucket := NewTokenBucket(10,1)
 	var i float64
-	for  i=0; i<20; i++ {
-		fmt.Println("rate limit check ", i+1, newTokenBucket.ratelimiter(2))
+	for  i=0; i<30; i++ {
+		fmt.Println("rate limit check ", i+1, newTokenBucket.ratelimiter(20))
 		time.Sleep(500 * time.Millisecond)
 	} 
 }
