@@ -1,3 +1,3 @@
 # go-rate-limiter
 
-Rate Limiter implemented using Token Bucket Algorithm built using Go.
+Rate Limiter implemented using Token Bucket Algorithm written in Go.
