@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
+	"math"
 )
 
 type  tokenBucket struct{
@@ -27,15 +28,16 @@ func NewTokenBucket(tokens float64,rate float64) *tokenBucket{
 // function to refill the tokenBucket
 func (tb* tokenBucket) refill(){
 	currentTime := time.Now()
-	timeSinceLastRefill := currentTime.Sub(tb.refillTime)
+	timeSinceLastRefill := currentTime.Sub(tb.lastRefillTime)
 	tokensToAdd :=  timeSinceLastRefill.Seconds() * tb.refillTimeRate
-	tb.tokens = min(tb.tokens+tokensToAdd, tb.maxTokens)
+	tb.tokens = math.Min(tb.tokens+tokensToAdd, tb.maxTokens)
 	tb.lastRefillTime = time.Now()
 }
 
 func (tb* tokenBucket) ratelimiter(requestNumber float64) bool{
 	// refill the bucket based on refillTime 
 	tb.refill()
+	fmt.Println("add =",tb.tokens)
 	if requestNumber < tb.tokens{
 		tb.tokens -= requestNumber
 		fmt.Println("sub = ",tb.tokens)
@@ -48,7 +50,7 @@ func main(){
 	newTokenBucket := NewTokenBucket(10,1)
 	var i float64
 	for  i=0; i<20; i++ {
-		fmt.Println("hey ", i+1, newTokenBucket.ratelimiter(20))
+		fmt.Println("rate limit check ", i+1, newTokenBucket.ratelimiter(2))
 		time.Sleep(500 * time.Millisecond)
 	} 
 }
