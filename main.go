@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"./src/ratelimiter"
+	"github.com/Utkarshn10/go-rate-limiter/src/ratelimiter"
 )
 
 func apiRequestHandler() {
