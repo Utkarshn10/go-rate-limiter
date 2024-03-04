@@ -1,26 +1,26 @@
 package ratelimiter
 
 import (
-	"fmt"
 	"math"
+	"net"
 	"time"
 )
 
 type tokenBucket struct {
 	tokens         float64
-	id             string
+	id             net.IP
 	refillTime     time.Time
 	maxTokens      float64
 	lastRefillTime time.Time
 	refillTimeRate float64
 }
 
-func NewTokenBucket(tokens float64, rate float64) *tokenBucket {
+func NewTokenBucket(tokens float64, rate float64, ip net.IP) *tokenBucket {
 	return &tokenBucket{
 		tokens:         tokens,
 		maxTokens:      tokens,
 		lastRefillTime: time.Now(),
-		// id: id,
+		id:             ip,
 		refillTimeRate: rate,
 	}
 }
@@ -34,7 +34,7 @@ func (tb *tokenBucket) refill() {
 	tb.lastRefillTime = time.Now()
 }
 
-func (tb *tokenBucket) ratelimiter(requestNumber float64) bool {
+func (tb *tokenBucket) Ratelimiter(requestNumber float64) bool {
 	// refill the bucket based on refillTime
 	tb.refill()
 	if requestNumber < tb.tokens {
@@ -45,10 +45,10 @@ func (tb *tokenBucket) ratelimiter(requestNumber float64) bool {
 }
 
 func main() {
-	newTokenBucket := NewTokenBucket(10, 1)
-	var i float64
-	for i = 0; i < 20; i++ {
-		fmt.Println("rate limit check ", i+1, newTokenBucket.ratelimiter(2))
-		time.Sleep(500 * time.Millisecond)
-	}
+	// newTokenBucket := NewTokenBucket(10, 1)
+	// var i float64
+	// for i = 0; i < 20; i++ {
+	// 	fmt.Println("rate limit check ", i+1, newTokenBucket.ratelimiter(2))
+	// 	time.Sleep(500 * time.Millisecond)
+	// }
 }
