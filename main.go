@@ -9,6 +9,7 @@ import (
 	"github.com/Utkarshn10/go-rate-limiter/src/ratelimiter"
 )
 
+// this is an example of how go-rate-limiter works
 var ip_addresses = make(map[string]*ratelimiter.TokenBucket)
 
 func apiRequestHandler() {
@@ -25,7 +26,7 @@ func apiRequestHandler() {
 			fmt.Fprint(w, "Limited")
 		} else {
 			w.WriteHeader(http.StatusTooManyRequests)
-			w.Write([]byte("Too many requests!\n"))
+			fmt.Fprint(w, "Too many requests!\n")
 		}
 	})
 
