@@ -29,7 +29,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/username/ratelimiter"
+	"github.com/Utkarshn10/go-rate-limiter/src/ratelimiter"
 )
 
 func main() {
